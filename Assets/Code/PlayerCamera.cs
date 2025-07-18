@@ -25,7 +25,7 @@ namespace JamSpace
         private float _camAngle;
 
         [SerializeField]
-        private Rigidbody rb;
+        private CharacterController characterController;
 
         private void Start()
         {
@@ -33,18 +33,22 @@ namespace JamSpace
             lookYAction.Enable();
         }
 
-        private void FixedUpdate() => rb.rotation = transform.rotation;
+        private void FixedUpdate() => UpdatePos();
 
         private void Update()
         {
             var lookX = lookXAction.WasPerformedThisFrame() ? lookXAction.ReadValue<float>() : 0f;
             var deltaTime = lookSpeedX * Time.deltaTime * lookX;
             transform.Rotate(transform.up, deltaTime);
-            rb.rotation = transform.rotation;
 
             var lookY = lookYAction.WasPerformedThisFrame() ? lookYAction.ReadValue<float>() : 0f;
             _camAngle -= lookSpeedY * Time.deltaTime * lookY;
             _camAngle = Mathf.Clamp(_camAngle, lookAngleX.x, lookAngleX.y);
+            UpdatePos();
+        }
+
+        private void UpdatePos()
+        {
             mainCamera.transform.position =
                 camAim.position -
                 camAim.forward * (distance * Mathf.Cos(_camAngle * Mathf.Deg2Rad)) +

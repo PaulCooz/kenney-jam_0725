@@ -12,13 +12,13 @@ namespace JamSpace
         [SerializeField]
         private float speed;
         [SerializeField]
-        private Rigidbody rb;
+        private CharacterController characterController;
         [SerializeField]
         private Animator animator;
 
         private void Start() { moveAction.Enable(); }
 
-        private void FixedUpdate() { transform.position = rb.position; }
+        private void FixedUpdate() { transform.position = characterController.transform.position; }
 
         private void Update()
         {
@@ -32,8 +32,8 @@ namespace JamSpace
 
             animator.SetBool(Running, input.sqrMagnitude > 0.1f);
 
-            rb.linearVelocity = input.WithY(rb.linearVelocity.y);
-            transform.position = rb.position;
+            characterController.SimpleMove(input.WithY(0));
+            transform.position = characterController.transform.position;
         }
     }
 }
