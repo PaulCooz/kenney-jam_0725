@@ -968,6 +968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 965013433}
+  offset: {x: 0, y: 0, z: -11}
 --- !u!4 &1241106580 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 49303665477556609, guid: badf6865a1bdd3f478622238809f770c, type: 3}

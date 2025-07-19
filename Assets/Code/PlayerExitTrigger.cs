@@ -7,6 +7,8 @@ namespace JamSpace
     {
         [SerializeField]
         private CharacterController characterController;
+        [SerializeField]
+        private Vector3 offset;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -14,7 +16,7 @@ namespace JamSpace
             {
                 characterController.enabled = false;
                 var pos = characterController.transform.position;
-                characterController.transform.position = pos.WithX(-pos.x).WithZ(-pos.z);
+                characterController.transform.position = pos.WithX(-pos.x).WithZ(-pos.z) + offset;
                 characterController.enabled = true;
             }
         }
