@@ -12,13 +12,11 @@ namespace JamSpace
         [SerializeField]
         private float speed;
         [SerializeField]
-        private CharacterController characterController;
-        [SerializeField]
-        private Animator animator;
+        private PlayerState player;
 
         private void Start() { moveAction.Enable(); }
 
-        private void FixedUpdate() { transform.position = characterController.transform.position; }
+        private void FixedUpdate() { transform.position = player.characterController.transform.position; }
 
         private void Update()
         {
@@ -27,13 +25,16 @@ namespace JamSpace
             {
                 var v = moveAction.ReadValue<Vector2>();
                 input = transform.right * v.x + transform.forward * v.y;
-                input = (speed * Time.deltaTime) * input.normalized;
+                input = (speed * Time.deltaTime) * input.WithY(0).normalized;
             }
 
-            animator.SetBool(Running, input.sqrMagnitude > 0.1f);
+            player.movement += input;
+            player.animator.SetBool(Running, player.movement.WithY(0f).sqrMagnitude > 0.00001f);
 
-            characterController.SimpleMove(input.WithY(0));
-            transform.position = characterController.transform.position;
+            player.characterController.Move(player.movement);
+            player.movement *= Mathf.Clamp01(1f - 10f * Time.deltaTime);
+
+            transform.position = player.characterController.transform.position;
         }
     }
 }

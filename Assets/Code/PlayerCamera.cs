@@ -33,8 +33,6 @@ namespace JamSpace
             lookYAction.Enable();
         }
 
-        private void FixedUpdate() => UpdatePos();
-
         private void Update()
         {
             var lookX = lookXAction.WasPerformedThisFrame() ? lookXAction.ReadValue<float>() : 0f;
@@ -46,6 +44,8 @@ namespace JamSpace
             _camAngle = Mathf.Clamp(_camAngle, lookAngleX.x, lookAngleX.y);
             UpdatePos();
         }
+
+        private void LateUpdate() => UpdatePos();
 
         private void UpdatePos()
         {

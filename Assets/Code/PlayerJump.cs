@@ -12,12 +12,16 @@ namespace JamSpace
         [SerializeField]
         private InputAction jumpAction;
         [SerializeField]
-        private CharacterController characterController;
-        [SerializeField]
-        private Animator animator;
+        private PlayerState player;
 
         [SerializeField]
         private float jumpHeight = 3f;
+        [SerializeField]
+        private float gravityScale = 0.1f;
+
+        [SerializeField]
+        private float cooldown = 1f;
+        private float _lastJumpTime;
 
         private Vector3 _velocity;
 
@@ -26,26 +30,29 @@ namespace JamSpace
         private void Update()
         {
             const float groundDist = 0.2f;
-            var isGrounded = Physics.Raycast(characterController.bounds.min, Vector3.down, out var hit, 10f) &&
+            var isGrounded = Physics.Raycast(player.characterController.bounds.min, Vector3.down, out var hit, 10f) &&
                              hit.distance < groundDist;
             if (isGrounded && _velocity.y < 0)
                 _velocity.y = -2f;
 
-            if (jumpAction.IsPressed() && isGrounded)
+            var gravity = Physics.gravity.y * gravityScale;
+            var time = Time.time;
+            if (jumpAction.IsPressed() && isGrounded && time - _lastJumpTime > cooldown)
             {
-                animator.SetTrigger(StartJump);
-                _velocity.y = Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+                _lastJumpTime = time;
+                player.animator.SetTrigger(StartJump);
+                _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
 
-            _velocity.y += Physics.gravity.y * Time.deltaTime;
+            _velocity.y += gravity * Time.deltaTime;
 
             // can go underground :/
             if (_velocity.y < 0f && -_velocity.y * Time.deltaTime > hit.distance)
                 _velocity.y = -hit.distance;
 
-            characterController.Move(_velocity * Time.deltaTime);
+            player.movement += _velocity * Time.deltaTime;
 
-            animator.SetBool(Grounded, isGrounded);
+            player.animator.SetBool(Grounded, isGrounded);
         }
     }
 }
