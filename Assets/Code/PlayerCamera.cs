@@ -25,7 +25,7 @@ namespace JamSpace
         private float _camAngle;
 
         [SerializeField]
-        private CharacterController characterController;
+        private PlayerState player;
 
         private void Start()
         {
@@ -35,6 +35,9 @@ namespace JamSpace
 
         private void Update()
         {
+            if (!player.isActiveAndEnabled)
+                return;
+
             var lookX = lookXAction.WasPerformedThisFrame() ? lookXAction.ReadValue<float>() : 0f;
             var deltaTime = lookSpeedX * Time.deltaTime * lookX;
             transform.Rotate(transform.up, deltaTime);

@@ -29,6 +29,12 @@ namespace JamSpace
 
         private void Update()
         {
+            if (!player.isActiveAndEnabled)
+            {
+                _velocity = Vector3.zero;
+                return;
+            }
+
             const float groundDist = 0.2f;
             var isGrounded = Physics.Raycast(player.characterController.bounds.min, Vector3.down, out var hit, 10f) &&
                              hit.distance < groundDist;

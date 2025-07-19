@@ -11,7 +11,7 @@ namespace JamSpace
         [SerializeField]
         private InputAction shootAction;
         [SerializeField]
-        private Animator animator;
+        private PlayerState player;
         [SerializeField]
         private Bullet bullet;
         [SerializeField]
@@ -25,10 +25,13 @@ namespace JamSpace
 
         private void Update()
         {
+            if (!player.isActiveAndEnabled)
+                return;
+
             var time = Time.unscaledTime;
             if ((time - _lastShootTime) >= cooldown && shootAction.IsPressed())
             {
-                animator.SetTrigger(Shoot);
+                player.animator.SetTrigger(Shoot);
                 var b = Instantiate(bullet);
                 b.transform.position = origin.position;
                 b.ShootTo(transform.forward);

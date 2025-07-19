@@ -350,7 +350,7 @@ MonoBehaviour:
       m_Action: Shoot
       m_Flags: 0
     m_Flags: 0
-  animator: {fileID: 2243629062777835677}
+  player: {fileID: 1295981883102072435}
   bullet: {fileID: 3808251211398261446, guid: 7db69af987ed618479cb472ca0e4344d, type: 3}
   origin: {fileID: 2783860479447836326}
   cooldown: 1

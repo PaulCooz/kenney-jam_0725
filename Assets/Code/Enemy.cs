@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace JamSpace
 {
@@ -25,20 +26,35 @@ namespace JamSpace
         private Animator animator;
         [SerializeField]
         private CharacterController characterController;
+        [SerializeField]
+        private GameObject[] weapons;
 
         [SerializeField]
         private int maxHealth = 5;
         private int _health;
 
         [SerializeField]
-        private PlayerState player;
+        public PlayerState player;
 
         private bool _attacking;
 
-        private void Awake() { _health = maxHealth; }
+        public bool runToPlayer;
+
+        public event Action<Enemy> OnDie;
+
+        private void Awake()
+        {
+            var weapon = Random.Range(0, weapons.Length);
+            for (var i = 0; i < weapons.Length; i++)
+                weapons[i].SetActive(weapon == i);
+
+            _health = maxHealth;
+        }
 
         private void OnTriggerEnter(Collider other)
         {
+            if (_health is 0)
+                return;
             if (other.TryGetComponent<Bullet>(out var bullet))
             {
                 _health -= bullet.damage;
@@ -51,20 +67,28 @@ namespace JamSpace
                     DOTween.Sequence()
                         .AppendInterval(1.5f)
                         .Append(transform.DOScale(0, 0.4f).SetEase(Ease.InBack))
-                        .AppendCallback(() => Destroy(gameObject));
+                        .AppendCallback(() =>
+                        {
+                            OnDie?.Invoke(this);
+                            OnDie = null;
+                            Destroy(gameObject);
+                        });
                 }
             }
         }
 
         private void Update()
         {
+            if (_health is 0)
+                return;
+
             var pos = characterController.transform.position;
             var playerPos = player.characterController.transform.position;
 
             var direction = Time.deltaTime * speed * (playerPos - pos).WithY(0).normalized;
             transform.rotation = Quaternion.LookRotation(direction);
 
-            if (_attacking)
+            if (_attacking || !runToPlayer)
                 return;
 
             if (Vector3.Distance(pos, playerPos) <= attackRange)

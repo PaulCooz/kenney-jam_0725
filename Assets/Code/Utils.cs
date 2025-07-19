@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace JamSpace
 {
@@ -21,5 +22,7 @@ namespace JamSpace
             v.z = z;
             return v;
         }
+
+        public static T GetRand<T>(this IReadOnlyList<T> list) => list[Random.Range(0, list.Count)];
     }
 }
