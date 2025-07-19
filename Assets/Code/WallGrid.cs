@@ -6,18 +6,18 @@ using Random = UnityEngine.Random;
 
 namespace JamSpace
 {
-    public sealed class FloorGrid : MonoBehaviour
+    public sealed class WallGrid : MonoBehaviour
     {
         [SerializeField]
         private MeshWithProb[] meshesWithProb;
 
         [SerializeField, HideInInspector]
-        private List<MeshFilter> tiles;
+        private List<MeshFilter> meshes;
 
         private void Awake()
         {
             var sum = meshesWithProb.Sum(mp => mp.prob);
-            foreach (var tile in tiles)
+            foreach (var tile in meshes)
             {
                 var rand = Random.Range(0f, sum);
                 var index = 0;
