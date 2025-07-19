@@ -13,6 +13,10 @@ namespace JamSpace
         [SerializeField]
         private Animator animator;
         [SerializeField]
+        private Bullet bullet;
+        [SerializeField]
+        private Transform origin;
+        [SerializeField]
         private float cooldown = 2;
 
         private float _lastShootTime;
@@ -25,6 +29,9 @@ namespace JamSpace
             if ((time - _lastShootTime) >= cooldown && shootAction.IsPressed())
             {
                 animator.SetTrigger(Shoot);
+                var b = Instantiate(bullet);
+                b.transform.position = origin.position;
+                b.ShootTo(transform.forward);
                 _lastShootTime = time;
             }
         }
