@@ -936,6 +936,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: rt
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 96
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 46, y: 22, z: 46, w: 22}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83165a1a522e10847b69af963f0d50f5
+      internalID: -329619227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -1032,6 +1054,7 @@ TextureImporter:
       kenney_ui-pack-adventure_80: -818864886
       kenney_ui-pack-adventure_9: 106729107
       rb: -1374060199
+      rt: -329619227
       sq: 1460652059
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

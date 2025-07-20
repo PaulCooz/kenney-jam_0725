@@ -17,7 +17,7 @@ namespace JamSpace
         [SerializeField]
         public Animator animator;
         [SerializeField]
-        private int maxHealth = 5;
+        public int maxHealth = 5;
 
         private static Values stateValuesPref
         {

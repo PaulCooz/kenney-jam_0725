@@ -29,10 +29,10 @@ namespace JamSpace
         [SerializeField]
         private Collider doorBeginCollider, doorEndCollider;
 
-        public static int levelNumber
+        public int levelNumber
         {
             get => PlayerPrefs.GetInt("LevelNumber", 1);
-            set => PlayerPrefs.SetInt("LevelNumber", value);
+            private set => PlayerPrefs.SetInt("LevelNumber", value);
         }
 
         private List<Enemy> _spawnedEnemies;
@@ -66,7 +66,7 @@ namespace JamSpace
                 moveSpeedScale = 1f + (ln - 1) / 5f,
                 meleeDamageAdd = ln - 1,
                 meleeIntervalScale = 1f - (ln - 1) / 10f,
-                healthAdd = ln - 1,
+                healthAdd = ln / 2,
             };
             _spawnedEnemies = new();
             for (var i = 0; i < ln; i++)
