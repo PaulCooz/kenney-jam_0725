@@ -37,7 +37,7 @@ namespace JamSpace
             player.animator.SetBool(Running, player.movement.WithY(0f).sqrMagnitude > 0.00001f);
 
             player.characterController.Move(player.movement);
-            player.movement *= Mathf.Clamp01(1f - 10f * Time.deltaTime);
+            player.movement -= player.movement * Mathf.Clamp01(Time.deltaTime * 10f);
         }
     }
 }

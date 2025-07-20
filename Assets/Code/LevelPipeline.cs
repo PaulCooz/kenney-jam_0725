@@ -41,6 +41,12 @@ namespace JamSpace
             private set => PlayerPrefs.SetInt("LevelNumber", value);
         }
 
+        public bool shownTutor
+        {
+            get => PlayerPrefs.GetInt("ShownTutor", 0) == 1;
+            private set => PlayerPrefs.SetInt("ShownTutor", value ? 1 : 0);
+        }
+
         private List<Enemy> _spawnedEnemies;
 
         private const float OpenDoorAngle = 100f;
@@ -94,7 +100,20 @@ namespace JamSpace
                 _spawnedEnemies.Add(enemy);
             }
 
-            await UniTask.WaitForSeconds(1f);
+            if (!shownTutor)
+            {
+                shownTutor = true;
+                Cursor.lockState = CursorLockMode.None;
+                await messagePopup.Push(
+                    "Welcome to the ancient dungeon!\nYou have to find the true POWER.\nDestroy all enemies and\ncheck the furthest rooms\nWho knows what you will find there?",
+                    "go!"
+                );
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                await UniTask.WaitForSeconds(1f);
+            }
 
             foreach (var e in _spawnedEnemies)
                 e.runToPlayer = true;
@@ -129,8 +148,16 @@ namespace JamSpace
         {
             player.enabled = false;
             player.characterController.enabled = false;
-
             Cursor.lockState = CursorLockMode.None;
+
+            if (levelNumber == 4)
+            {
+                await messagePopup.Push(
+                    "In this old room you found\nthe book of true power, you open it\nand read that true power is... e=mc^2",
+                    "ok, play endless mode!"
+                );
+            }
+
             if (isWin)
             {
                 levelNumber++;

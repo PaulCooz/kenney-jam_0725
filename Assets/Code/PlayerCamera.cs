@@ -66,6 +66,20 @@ namespace JamSpace
                 camAim.forward * (distance * Mathf.Cos(_camAngle * Mathf.Deg2Rad)) +
                 camAim.up * (distance * Mathf.Sin(_camAngle * Mathf.Deg2Rad));
             mainCamera.transform.LookAt(camAim.transform.position + lookDist * camAim.forward);
+
+            if (Physics.Raycast(
+                    camAim.transform.position,
+                    mainCamera.transform.position - camAim.transform.position,
+                    out var hit, distance
+                ))
+            {
+                var fixDist = hit.distance - 0.1f;
+                mainCamera.transform.position =
+                    camAim.position -
+                    camAim.forward * (fixDist * Mathf.Cos(_camAngle * Mathf.Deg2Rad)) +
+                    camAim.up * (fixDist * Mathf.Sin(_camAngle * Mathf.Deg2Rad));
+                mainCamera.transform.LookAt(camAim.transform.position + lookDist * camAim.forward);
+            }
         }
     }
 }
