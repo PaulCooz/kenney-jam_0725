@@ -44,11 +44,11 @@ namespace JamSpace
             }
 
             var lookX = lookXAction.WasPerformedThisFrame() ? lookXAction.ReadValue<float>() : 0f;
-            var deltaTime = lookSpeedX * Time.deltaTime * lookX;
+            var deltaTime = lookSpeedX * SettingsPopup.CamXSen * Time.deltaTime * lookX;
             transform.RotateAround(player.characterController.transform.position, transform.up, deltaTime);
 
             var lookY = lookYAction.WasPerformedThisFrame() ? lookYAction.ReadValue<float>() : 0f;
-            _camAngle -= lookSpeedY * Time.deltaTime * lookY;
+            _camAngle -= lookSpeedY * SettingsPopup.CamYSen * Time.deltaTime * lookY;
             _camAngle = Mathf.Clamp(_camAngle, lookAngleX.x, lookAngleX.y);
             UpdatePos();
         }

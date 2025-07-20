@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -99,6 +100,16 @@ namespace JamSpace
             public bool shootAimEnable;
 
             public int maxHealthAdd;
+
+            public override string ToString() => new StringBuilder()
+                .AppendLine($"move speed: x{moveSpeedScale:F1}")
+                .AppendLine($"jump gravity: x{jumpGravityScale:F1}")
+                .AppendLine($"jump force: x{jumpForceScale:F1}")
+                .AppendLine($"shoot damage: {shootDamageAdd + 1}")
+                .AppendLine($"shoot cooldown: {shootIntervalScale:F1}")
+                .AppendLine($"bullet scale: {shootBulletSizeScale:F1}")
+                .AppendLine($"enabled anim: {(shootAimEnable ? "yes" : "no")}")
+                .ToString();
         }
     }
 }

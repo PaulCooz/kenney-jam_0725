@@ -311,7 +311,7 @@ MonoBehaviour:
       m_Action: Move
       m_Flags: 8
     m_Flags: 0
-  speed: 0.5
+  speed: 0.6
   player: {fileID: 1295981883102072435}
 --- !u!114 &1272980754408604896
 MonoBehaviour:
@@ -354,6 +354,9 @@ MonoBehaviour:
   bullet: {fileID: 3808251211398261446, guid: 7db69af987ed618479cb472ca0e4344d, type: 3}
   origin: {fileID: 2783860479447836326}
   cooldown: 1
+  onShoot:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7023726925148926970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,9 +410,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd0d4407e094e928b4209ea08e9b721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelPipeline: {fileID: 0}
   characterController: {fileID: 4864424220281878934}
   animator: {fileID: 2243629062777835677}
-  maxHealth: 3
+  maxHealthDefault: 3
+  damageSource: {fileID: 0}
   stateValues:
     moveSpeedScale: 0
     jumpGravityScale: 0
@@ -418,6 +423,7 @@ MonoBehaviour:
     shootIntervalScale: 0
     shootBulletSizeScale: 0
     shootAimEnable: 0
+    maxHealthAdd: 0
 --- !u!1 &9028065680477994388
 GameObject:
   m_ObjectHideFlags: 0
