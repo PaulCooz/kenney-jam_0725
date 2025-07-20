@@ -311,7 +311,7 @@ MonoBehaviour:
       m_Action: Move
       m_Flags: 8
     m_Flags: 0
-  speed: 0.6
+  speed: 1.1
   player: {fileID: 1295981883102072435}
 --- !u!114 &1272980754408604896
 MonoBehaviour:
