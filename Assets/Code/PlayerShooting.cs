@@ -29,12 +29,14 @@ namespace JamSpace
                 return;
 
             var time = Time.unscaledTime;
-            if ((time - _lastShootTime) >= cooldown && shootAction.IsPressed())
+            if ((time - _lastShootTime) >= (cooldown * player.stateValues.shootIntervalScale) &&
+                shootAction.IsPressed())
             {
                 player.animator.SetTrigger(Shoot);
                 var b = Instantiate(bullet);
                 b.transform.position = origin.position;
-                b.ShootTo(transform.forward);
+                b.transform.localScale = Vector3.one * player.stateValues.shootBulletSizeScale;
+                b.ShootTo(transform.forward, player.stateValues.shootDamageAdd);
                 _lastShootTime = time;
             }
         }

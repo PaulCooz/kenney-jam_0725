@@ -9,13 +9,16 @@ namespace JamSpace
         private float speed = 10;
         [SerializeField]
         private float maxLifeTime = 5f;
-        [SerializeField]
-        public int damage = 1;
+        public int damage { get; private set; } = 1;
 
         private float _lifeTime;
         private Vector3 _flyDirection;
 
-        public void ShootTo(Vector3 forward) { _flyDirection = forward; }
+        public void ShootTo(Vector3 forward, int additionalDamage)
+        {
+            _flyDirection = forward;
+            damage += additionalDamage;
+        }
 
         private void Update()
         {

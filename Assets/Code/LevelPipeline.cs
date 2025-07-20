@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -99,7 +98,7 @@ namespace JamSpace
                 .AppendCallback(() => doorEndCollider.enabled = false);
         }
 
-        public async UniTask FinishAsync(Vector3 exitOffset)
+        public async UniTask FinishAsync()
         {
             player.enabled = false;
             player.characterController.enabled = false;
@@ -108,10 +107,16 @@ namespace JamSpace
             await powerChooser.ChooseAsync();
             Cursor.lockState = CursorLockMode.Locked;
 
-            var currPos = player.characterController.transform.position;
-            var pos = currPos.WithX(-currPos.x).WithZ(-currPos.z) + exitOffset;
-            player.characterController.transform.position = pos;
-            await UniTask.NextFrame();
+            var checkSet = 0;
+            while (checkSet < 3)
+            {
+                player.transform.position = player.characterController.transform.position = playerStartPos;
+                await UniTask.NextFrame();
+
+                checkSet += Vector3.Distance(player.characterController.transform.position, playerStartPos) < 0.1f
+                    ? +1
+                    : -checkSet;
+            }
 
             player.characterController.enabled = true;
             player.enabled = true;

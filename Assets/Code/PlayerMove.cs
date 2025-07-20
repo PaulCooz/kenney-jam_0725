@@ -41,7 +41,7 @@ namespace JamSpace
             {
                 var v = moveAction.ReadValue<Vector2>();
                 input = transform.right * v.x + transform.forward * v.y;
-                input = (speed * Time.deltaTime) * input.WithY(0).normalized;
+                input = (speed * player.stateValues.moveSpeedScale * Time.deltaTime) * input.WithY(0).normalized;
             }
 
             player.movement += input;

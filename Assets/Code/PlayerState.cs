@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace JamSpace
@@ -14,6 +15,16 @@ namespace JamSpace
         public Animator animator;
         [SerializeField]
         private int maxHealth = 5;
+
+        public Values stateValues
+        {
+            get
+            {
+                var json = PlayerPrefs.GetString("StateValues");
+                return string.IsNullOrEmpty(json) ? Values.Default : JsonConvert.DeserializeObject<Values>(json);
+            }
+            set => PlayerPrefs.SetString("StateValues", JsonConvert.SerializeObject(value));
+        }
 
         public Vector3 movement { get; set; }
 
@@ -34,6 +45,35 @@ namespace JamSpace
             }
         }
 
-        private void Awake() { _health = maxHealth; }
+        private void Awake()
+        {
+            _health = maxHealth;
+            
+        }
+
+        [Serializable]
+        public struct Values
+        {
+            public static readonly Values Default = new()
+            {
+                moveSpeedScale = 1f,
+                jumpGravityScale = 1f,
+                jumpForceScale = 1f,
+
+                shootDamageAdd = 0,
+                shootIntervalScale = 1f,
+                shootBulletSizeScale = 1f,
+                shootAimEnable = false,
+            };
+
+            public float moveSpeedScale;
+            public float jumpGravityScale;
+            public float jumpForceScale;
+
+            public int shootDamageAdd;
+            public float shootIntervalScale;
+            public float shootBulletSizeScale;
+            public bool shootAimEnable;
+        }
     }
 }

@@ -42,13 +42,13 @@ namespace JamSpace
             if (isGrounded && _velocity.y < 0)
                 _velocity.y = -2f;
 
-            var gravity = Physics.gravity.y * gravityScale;
+            var gravity = Physics.gravity.y * gravityScale * player.stateValues.jumpGravityScale;
             var time = Time.time;
             if (jumpAction.IsPressed() && isGrounded && time - _lastJumpTime > cooldown)
             {
                 _lastJumpTime = time;
                 player.animator.SetTrigger(StartJump);
-                _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                _velocity.y = Mathf.Sqrt((jumpHeight * player.stateValues.jumpForceScale) * -2f * gravity);
             }
 
             _velocity.y += gravity * Time.deltaTime;

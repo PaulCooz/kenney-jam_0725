@@ -10,8 +10,6 @@ namespace JamSpace
         private PlayerState player;
         [SerializeField]
         private LevelPipeline levelPipeline;
-        [SerializeField]
-        private Vector3 offset;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -19,7 +17,7 @@ namespace JamSpace
                 return;
 
             if (other.CompareTag("Finish"))
-                levelPipeline.FinishAsync(offset).Forget();
+                levelPipeline.FinishAsync().Forget();
         }
     }
 }
