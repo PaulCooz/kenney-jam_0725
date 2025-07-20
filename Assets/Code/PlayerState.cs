@@ -18,6 +18,8 @@ namespace JamSpace
         public Animator animator;
         [SerializeField]
         private int maxHealthDefault = 3;
+        [SerializeField]
+        private AudioSource damageSource;
 
         public int maxHealth => maxHealthDefault + stateValues.maxHealthAdd;
 
@@ -46,6 +48,7 @@ namespace JamSpace
 
                 value = Mathf.Max(value, 0);
 
+                damageSource.Play();
                 if (value is 0)
                 {
                     levelPipeline.FinishAsync(false).Forget();

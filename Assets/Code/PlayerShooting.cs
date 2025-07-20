@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace JamSpace
@@ -19,6 +20,9 @@ namespace JamSpace
         [SerializeField]
         private float cooldown = 2;
 
+        [SerializeField]
+        private UnityEvent onShoot;
+
         private float _lastShootTime;
 
         private void Start() { shootAction.Enable(); }
@@ -32,6 +36,8 @@ namespace JamSpace
             if ((time - _lastShootTime) >= (cooldown * player.stateValues.shootIntervalScale) &&
                 shootAction.IsPressed())
             {
+                onShoot?.Invoke();
+
                 player.animator.SetTrigger(Shoot);
                 var b = Instantiate(bullet);
                 b.transform.position = origin.position;

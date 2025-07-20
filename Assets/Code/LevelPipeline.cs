@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace JamSpace
@@ -29,6 +30,11 @@ namespace JamSpace
         [SerializeField]
         private Collider doorBeginCollider, doorEndCollider;
 
+        [SerializeField]
+        private UnityEvent onLevelStart;
+        [SerializeField]
+        private UnityEvent<bool> onDoorOpen;
+
         public int levelNumber
         {
             get => PlayerPrefs.GetInt("LevelNumber", 1);
@@ -53,6 +59,8 @@ namespace JamSpace
         private async UniTask StartLevelAsync()
         {
             await UniTask.DelayFrame(2);
+
+            onLevelStart?.Invoke();
 
             doorBeginCollider.enabled = doorEndCollider.enabled = true;
             doorBeginPoint.localRotation = doorEndPoint.localRotation = Quaternion.identity;
@@ -91,6 +99,7 @@ namespace JamSpace
             foreach (var e in _spawnedEnemies)
                 e.runToPlayer = true;
 
+            onDoorOpen.Invoke(true);
             await doorBeginPoint
                 .DOLocalRotate(new(0, OpenDoorAngle, 0), 0.5f)
                 .SetEase(Ease.OutBack);
@@ -107,6 +116,7 @@ namespace JamSpace
 
         private void OpenExit()
         {
+            onDoorOpen.Invoke(false);
             DOTween.Sequence()
                 .Append(doorEndPoint
                     .DOLocalRotate(new(0, OpenDoorAngle, 0), 0.5f)

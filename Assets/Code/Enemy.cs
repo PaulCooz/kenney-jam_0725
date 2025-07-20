@@ -45,6 +45,9 @@ namespace JamSpace
 
         public event Action<Enemy> OnDie;
 
+        [SerializeField]
+        private AudioSource damageSource;
+
         public void Setup(Values v)
         {
             values = v;
@@ -69,6 +72,7 @@ namespace JamSpace
 
             _health -= d;
             _health = Mathf.Max(_health, 0);
+            damageSource.Play();
             animator.SetTrigger(_health is 0 ? Die : Hit);
 
             if (_health is 0)

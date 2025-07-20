@@ -85,7 +85,7 @@ namespace JamSpace
                 CanChoose = _ => true,
                 GetToChoose = () =>
                 {
-                    _shootIntervalScale = Random.Range(1, 7 + 1);
+                    _shootIntervalScale = Random.Range(2, 9 + 1);
                     return $"-{_shootIntervalScale * 10}% to shoot interval";
                 },
                 Use = player =>
@@ -101,7 +101,7 @@ namespace JamSpace
                 CanChoose = _ => true,
                 GetToChoose = () =>
                 {
-                    _shootBulletSizeScale = Random.Range(3, 10 + 1);
+                    _shootBulletSizeScale = Random.Range(8, 20 + 1);
                     return $"{_shootBulletSizeScale * 10}% to bullet size";
                 },
                 Use = player =>

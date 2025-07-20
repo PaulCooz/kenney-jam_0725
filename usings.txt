@@ -2,3 +2,5 @@
 player:     https://kaylousberg.itch.io/kaykit-adventurers
 enemies:    https://kaylousberg.itch.io/kaykit-skeletons
 ui:         https://kenney.nl/assets/ui-pack-adventure
+music:      https://darkfantasystudio.com/music/chronicles-of-the-illusion-world-fun-mini-game
+sfx:        https://kenney.nl/assets/rpg-audio
