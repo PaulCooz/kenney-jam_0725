@@ -16,13 +16,23 @@ namespace JamSpace
 
         private void Start() { moveAction.Enable(); }
 
-        private void FixedUpdate() => transform.position = player.characterController.transform.position;
+        private void FixedUpdate()
+        {
+            if (!player.isActiveAndEnabled)
+            {
+                player.movement = Vector3.zero;
+                return;
+            }
+
+            transform.position = player.characterController.transform.position;
+        }
 
         private void Update()
         {
             if (!player.isActiveAndEnabled)
             {
                 player.movement = Vector3.zero;
+                player.animator.SetBool(Running, false);
                 return;
             }
 

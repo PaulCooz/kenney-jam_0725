@@ -36,7 +36,12 @@ namespace JamSpace
         private void Update()
         {
             if (!player.isActiveAndEnabled)
+            {
+                // clear sky
+                mainCamera.transform.position = 10f * Vector3.up;
+                mainCamera.transform.LookAt(mainCamera.transform.position + Vector3.up);
                 return;
+            }
 
             var lookX = lookXAction.WasPerformedThisFrame() ? lookXAction.ReadValue<float>() : 0f;
             var deltaTime = lookSpeedX * Time.deltaTime * lookX;
@@ -52,6 +57,9 @@ namespace JamSpace
 
         private void UpdatePos()
         {
+            if (!player.isActiveAndEnabled)
+                return;
+
             mainCamera.transform.position =
                 camAim.position -
                 camAim.forward * (distance * Mathf.Cos(_camAngle * Mathf.Deg2Rad)) +

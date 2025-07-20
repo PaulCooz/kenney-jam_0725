@@ -32,6 +32,7 @@ namespace JamSpace
             if (!player.isActiveAndEnabled)
             {
                 _velocity = Vector3.zero;
+                player.animator.SetBool(Grounded, true);
                 return;
             }
 

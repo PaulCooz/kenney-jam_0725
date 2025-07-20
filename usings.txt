@@ -1,0 +1,4 @@
+﻿font:       https://ggbot.itch.io/smallburg-font
+player:     https://kaylousberg.itch.io/kaykit-adventurers
+enemies:    https://kaylousberg.itch.io/kaykit-skeletons
+ui:         https://kenney.nl/assets/ui-pack-adventure

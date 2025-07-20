@@ -15,6 +15,8 @@ namespace JamSpace
 
         [SerializeField]
         private PlayerState player;
+        [SerializeField]
+        private PowerChooser powerChooser;
 
         [SerializeField]
         private Vector3 playerStartPos;
@@ -97,6 +99,24 @@ namespace JamSpace
                 .AppendCallback(() => doorEndCollider.enabled = false);
         }
 
-        public void Restart() => StartLevelAsync().Forget();
+        public async UniTask FinishAsync(Vector3 exitOffset)
+        {
+            player.enabled = false;
+            player.characterController.enabled = false;
+
+            Cursor.lockState = CursorLockMode.None;
+            await powerChooser.ChooseAsync();
+            Cursor.lockState = CursorLockMode.Locked;
+
+            var currPos = player.characterController.transform.position;
+            var pos = currPos.WithX(-currPos.x).WithZ(-currPos.z) + exitOffset;
+            player.characterController.transform.position = pos;
+            await UniTask.NextFrame();
+
+            player.characterController.enabled = true;
+            player.enabled = true;
+
+            StartLevelAsync().Forget();
+        }
     }
 }
