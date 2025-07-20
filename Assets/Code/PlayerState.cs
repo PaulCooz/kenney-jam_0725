@@ -17,7 +17,9 @@ namespace JamSpace
         [SerializeField]
         public Animator animator;
         [SerializeField]
-        public int maxHealth = 5;
+        private int maxHealthDefault = 3;
+
+        public int maxHealth => maxHealthDefault + stateValues.maxHealthAdd;
 
         private static Values stateValuesPref
         {
@@ -80,6 +82,8 @@ namespace JamSpace
                 shootIntervalScale = 1f,
                 shootBulletSizeScale = 1f,
                 shootAimEnable = false,
+
+                maxHealthAdd = 0,
             };
 
             public float moveSpeedScale;
@@ -90,6 +94,8 @@ namespace JamSpace
             public float shootIntervalScale;
             public float shootBulletSizeScale;
             public bool shootAimEnable;
+
+            public int maxHealthAdd;
         }
     }
 }

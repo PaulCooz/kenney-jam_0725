@@ -16,7 +16,7 @@ namespace JamSpace
         {
             new()
             {
-                Name = "MoveSpeedScale", Prob = 8,
+                Name = "MoveSpeedScale", Prob = 9,
                 CanChoose = _ => true,
                 GetToChoose = () =>
                 {
@@ -120,6 +120,18 @@ namespace JamSpace
                 {
                     var values = player.stateValues;
                     values.shootAimEnable = true;
+                    player.SaveValues();
+                },
+            },
+            new()
+            {
+                Name = "HealthAdd", Prob = 10,
+                CanChoose = _ => true,
+                GetToChoose = () => "+1 max health",
+                Use = player =>
+                {
+                    var values = player.stateValues;
+                    values.maxHealthAdd++;
                     player.SaveValues();
                 },
             },

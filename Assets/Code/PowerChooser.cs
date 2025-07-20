@@ -20,7 +20,7 @@ namespace JamSpace
         [SerializeField]
         private PlayerState player;
 
-        private int _leftIndex, _rightIndex;
+        private PowerUps.PowerUp _leftPU, _rightPU;
 
         private UniTaskCompletionSource _chooseTcs;
 
@@ -49,7 +49,10 @@ namespace JamSpace
 
         public void ClickChoose(bool isRight)
         {
-            PowerUps.All[isRight ? _rightIndex : _leftIndex].Use(player);
+            if (isRight)
+                _rightPU.Use(player);
+            else
+                _leftPU.Use(player);
             _chooseTcs.TrySetResult();
         }
 
@@ -59,32 +62,30 @@ namespace JamSpace
 
             await UniTask.NextFrame();
 
-            _leftIndex = 0;
             var powerUps = PowerUps.All.Where(pu => pu.CanChoose(player)).ToArray();
             var sum = powerUps.Sum(pu => pu.Prob);
             var rand = Random.Range(0, sum + 1);
-            for (var i = 0; i < powerUps.Length; i++)
+            foreach (var pu in powerUps)
             {
-                rand -= powerUps[i].Prob;
+                rand -= pu.Prob;
                 if (rand <= 0)
                 {
-                    leftTMP.text = powerUps[i].GetToChoose();
-                    _leftIndex = i;
+                    leftTMP.text = pu.GetToChoose();
+                    _leftPU = pu;
                     break;
                 }
             }
 
-            _rightIndex = 0;
-            powerUps = PowerUps.All.Where((pu, i) => pu.CanChoose(player) && i != _leftIndex).ToArray();
+            powerUps = powerUps.Where(pu => pu.Name != _leftPU.Name).ToArray();
             sum = powerUps.Sum(pu => pu.Prob);
             rand = Random.Range(0, sum + 1);
-            for (var i = 0; i < powerUps.Length; i++)
+            foreach (var pu in powerUps)
             {
-                rand -= powerUps[i].Prob;
+                rand -= pu.Prob;
                 if (rand <= 0)
                 {
-                    rightTMP.text = powerUps[i].GetToChoose();
-                    _rightIndex = i;
+                    rightTMP.text = pu.GetToChoose();
+                    _rightPU = pu;
                     break;
                 }
             }
