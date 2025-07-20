@@ -37,7 +37,7 @@ namespace JamSpace
         {
             player.enabled = false;
             player.characterController.enabled = false;
-            player.transform.position = player.characterController.transform.position = playerStartPos;
+            player.characterController.transform.position = playerStartPos;
 
             StartLevelAsync().Forget();
         }
@@ -110,7 +110,7 @@ namespace JamSpace
             var checkSet = 0;
             while (checkSet < 3)
             {
-                player.transform.position = player.characterController.transform.position = playerStartPos;
+                player.characterController.transform.position = playerStartPos;
                 await UniTask.NextFrame();
 
                 checkSet += Vector3.Distance(player.characterController.transform.position, playerStartPos) < 0.1f

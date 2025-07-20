@@ -45,7 +45,7 @@ namespace JamSpace
 
             var lookX = lookXAction.WasPerformedThisFrame() ? lookXAction.ReadValue<float>() : 0f;
             var deltaTime = lookSpeedX * Time.deltaTime * lookX;
-            transform.Rotate(transform.up, deltaTime);
+            transform.RotateAround(player.characterController.transform.position, transform.up, deltaTime);
 
             var lookY = lookYAction.WasPerformedThisFrame() ? lookYAction.ReadValue<float>() : 0f;
             _camAngle -= lookSpeedY * Time.deltaTime * lookY;
@@ -53,6 +53,7 @@ namespace JamSpace
             UpdatePos();
         }
 
+        private void FixedUpdate() => UpdatePos();
         private void LateUpdate() => UpdatePos();
 
         private void UpdatePos()

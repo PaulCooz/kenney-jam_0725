@@ -16,17 +16,6 @@ namespace JamSpace
 
         private void Start() { moveAction.Enable(); }
 
-        private void FixedUpdate()
-        {
-            if (!player.isActiveAndEnabled)
-            {
-                player.movement = Vector3.zero;
-                return;
-            }
-
-            transform.position = player.characterController.transform.position;
-        }
-
         private void Update()
         {
             if (!player.isActiveAndEnabled)
@@ -49,8 +38,6 @@ namespace JamSpace
 
             player.characterController.Move(player.movement);
             player.movement *= Mathf.Clamp01(1f - 10f * Time.deltaTime);
-
-            transform.position = player.characterController.transform.position;
         }
     }
 }
