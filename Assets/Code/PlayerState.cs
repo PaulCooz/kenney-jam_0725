@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -10,13 +11,15 @@ namespace JamSpace
         private static readonly int Hit = Animator.StringToHash("Hit");
 
         [SerializeField]
+        private LevelPipeline levelPipeline;
+        [SerializeField]
         public CharacterController characterController;
         [SerializeField]
         public Animator animator;
         [SerializeField]
         private int maxHealth = 5;
 
-        public Values stateValues
+        private static Values stateValuesPref
         {
             get
             {
@@ -26,6 +29,8 @@ namespace JamSpace
             set => PlayerPrefs.SetString("StateValues", JsonConvert.SerializeObject(value));
         }
 
+        public Values stateValues;
+
         public Vector3 movement { get; set; }
 
         private int _health;
@@ -34,25 +39,36 @@ namespace JamSpace
             get => _health;
             set
             {
+                if (_health is 0)
+                    return;
+
                 value = Mathf.Max(value, 0);
 
                 if (value is 0)
+                {
+                    levelPipeline.FinishAsync(false).Forget();
                     animator.SetTrigger(Die);
+                }
                 else if (_health > value)
+                {
                     animator.SetTrigger(Hit);
+                }
 
                 _health = value;
             }
         }
 
-        private void Awake()
+        public void SaveValues() => stateValuesPref = stateValues;
+
+        public void Awake()
         {
             _health = maxHealth;
-            
+            stateValues = stateValuesPref;
+            animator.Play("Idle");
         }
 
         [Serializable]
-        public struct Values
+        public class Values
         {
             public static readonly Values Default = new()
             {

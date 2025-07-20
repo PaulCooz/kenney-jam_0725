@@ -169,7 +169,7 @@ MonoBehaviour:
   lookDist: 10
   mainCamera: {fileID: 521085501038586990}
   camAim: {fileID: 2250954052895491076}
-  characterController: {fileID: 4864424220281878934}
+  player: {fileID: 0}
 --- !u!114 &4952188127227914457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +409,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 4864424220281878934}
   animator: {fileID: 2243629062777835677}
-  maxHealth: 5
+  maxHealth: 3
+  stateValues:
+    moveSpeedScale: 0
+    jumpGravityScale: 0
+    jumpForceScale: 0
+    shootDamageAdd: 0
+    shootIntervalScale: 0
+    shootBulletSizeScale: 0
+    shootAimEnable: 0
 --- !u!1 &9028065680477994388
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,8 +691,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e15b5d35f5c249f2ac5168da8d65479e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterController: {fileID: 4864424220281878934}
-  offset: {x: 0, y: 0, z: -11}
+  player: {fileID: 0}
+  levelPipeline: {fileID: 0}
 --- !u!4 &5315044063255218919 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 96b6d4ebaa499124c8e3a11436e41373, type: 3}

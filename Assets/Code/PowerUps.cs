@@ -27,7 +27,7 @@ namespace JamSpace
                 {
                     var values = player.stateValues;
                     values.moveSpeedScale += _moveSpeedScale / 10f;
-                    player.stateValues = values;
+                    player.SaveValues();
                 },
             },
             new()
@@ -37,14 +37,14 @@ namespace JamSpace
                 GetToChoose = () =>
                 {
                     _jumpGravityScale = Random.Range(-5, +5 + 1);
-                    if (_jumpGravityScale == 0) _jumpGravityScale = 1;
-                    return $"{(_jumpGravityScale > 0 ? '+' : '-')}{_jumpGravityScale * 10}% to player gravity";
+                    if (_jumpGravityScale == 0) _jumpGravityScale = -1;
+                    return $"{(_jumpGravityScale > 0 ? "+" : "")}{_jumpGravityScale * 10}% to player gravity";
                 },
                 Use = player =>
                 {
                     var values = player.stateValues;
                     values.jumpGravityScale += _jumpGravityScale / 10f;
-                    player.stateValues = values;
+                    player.SaveValues();
                 },
             },
             new()
@@ -60,7 +60,7 @@ namespace JamSpace
                 {
                     var values = player.stateValues;
                     values.jumpForceScale += _jumpForceScale / 10f;
-                    player.stateValues = values;
+                    player.SaveValues();
                 },
             },
             new()
@@ -76,7 +76,7 @@ namespace JamSpace
                 {
                     var values = player.stateValues;
                     values.shootDamageAdd += _shootDamageAdd;
-                    player.stateValues = values;
+                    player.SaveValues();
                 },
             },
             new()
@@ -85,14 +85,14 @@ namespace JamSpace
                 CanChoose = _ => true,
                 GetToChoose = () =>
                 {
-                    _shootIntervalScale = Random.Range(1, 8 + 1);
+                    _shootIntervalScale = Random.Range(1, 7 + 1);
                     return $"-{_shootIntervalScale * 10}% to shoot interval";
                 },
                 Use = player =>
                 {
                     var values = player.stateValues;
                     values.shootIntervalScale -= _shootIntervalScale / 10f;
-                    player.stateValues = values;
+                    player.SaveValues();
                 },
             },
             new()
@@ -101,14 +101,14 @@ namespace JamSpace
                 CanChoose = _ => true,
                 GetToChoose = () =>
                 {
-                    _shootBulletSizeScale = Random.Range(1, 7 + 1);
+                    _shootBulletSizeScale = Random.Range(3, 10 + 1);
                     return $"{_shootBulletSizeScale * 10}% to bullet size";
                 },
                 Use = player =>
                 {
                     var values = player.stateValues;
                     values.shootBulletSizeScale += _shootBulletSizeScale / 10f;
-                    player.stateValues = values;
+                    player.SaveValues();
                 },
             },
             new()
@@ -120,7 +120,7 @@ namespace JamSpace
                 {
                     var values = player.stateValues;
                     values.shootAimEnable = true;
-                    player.stateValues = values;
+                    player.SaveValues();
                 },
             },
         };

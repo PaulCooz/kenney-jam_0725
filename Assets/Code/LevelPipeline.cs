@@ -16,6 +16,8 @@ namespace JamSpace
         private PlayerState player;
         [SerializeField]
         private PowerChooser powerChooser;
+        [SerializeField]
+        private MessagePopup messagePopup;
 
         [SerializeField]
         private Vector3 playerStartPos;
@@ -26,6 +28,12 @@ namespace JamSpace
         private Transform doorBeginPoint, doorEndPoint;
         [SerializeField]
         private Collider doorBeginCollider, doorEndCollider;
+
+        public static int levelNumber
+        {
+            get => PlayerPrefs.GetInt("LevelNumber", 1);
+            set => PlayerPrefs.SetInt("LevelNumber", value);
+        }
 
         private List<Enemy> _spawnedEnemies;
 
@@ -52,8 +60,16 @@ namespace JamSpace
             player.enabled = true;
             player.characterController.enabled = true;
 
+            var ln = levelNumber;
+            var enemiesState = new Enemy.Values
+            {
+                moveSpeedScale = 1f + (ln - 1) / 5f,
+                meleeDamageAdd = ln - 1,
+                meleeIntervalScale = 1f - (ln - 1) / 10f,
+                healthAdd = ln - 1,
+            };
             _spawnedEnemies = new();
-            for (var i = 0; i < 3; i++)
+            for (var i = 0; i < ln; i++)
             {
                 await UniTask.NextFrame();
 
@@ -65,6 +81,7 @@ namespace JamSpace
                     0.5f,
                     Mathf.Lerp(enemySpawnZone.yMin, enemySpawnZone.yMax, Random.value)
                 );
+                enemy.Setup(enemiesState);
                 enemy.OnDie += OnEnemyDie;
                 _spawnedEnemies.Add(enemy);
             }
@@ -98,13 +115,24 @@ namespace JamSpace
                 .AppendCallback(() => doorEndCollider.enabled = false);
         }
 
-        public async UniTask FinishAsync()
+        public async UniTask FinishAsync(bool isWin = true)
         {
             player.enabled = false;
             player.characterController.enabled = false;
 
             Cursor.lockState = CursorLockMode.None;
-            await powerChooser.ChooseAsync();
+            if (isWin)
+            {
+                levelNumber++;
+
+                await powerChooser.ChooseAsync();
+            }
+            else
+            {
+                foreach (var e in _spawnedEnemies)
+                    Destroy(e.gameObject);
+                await messagePopup.Push("you died", "restart");
+            }
             Cursor.lockState = CursorLockMode.Locked;
 
             var checkSet = 0;
@@ -120,6 +148,8 @@ namespace JamSpace
 
             player.characterController.enabled = true;
             player.enabled = true;
+
+            player.Awake();
 
             StartLevelAsync().Forget();
         }

@@ -291,6 +291,10 @@ MonoBehaviour:
   maxHealth: 1
   player: {fileID: 0}
   runToPlayer: 0
+  values:
+    moveSpeedScale: 1
+    meleeDamageAdd: 0
+    meleeIntervalScale: 1
 --- !u!4 &8486377411530204662 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7655872403321392018, guid: 4d885f6d32955ae458e08d0ca3c2f41c, type: 3}
